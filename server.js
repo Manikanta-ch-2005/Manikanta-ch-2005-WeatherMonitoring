@@ -1,6 +1,7 @@
+require("dotenv").config()
+
 const cookieParser = require("cookie-parser")
 const socketIO = require("socket.io")
-const config = require("./config")
 const express = require("express")
 const tarkine = require("tarkine")
 const http = require("http")
@@ -9,7 +10,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new socketIO.Server(server)
 
-const PORT = process.env.PORT || config.port
+const PORT = process.env.PORT || 6589
 
 global.IO = io
 

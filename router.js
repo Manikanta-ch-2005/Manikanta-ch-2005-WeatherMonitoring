@@ -1,12 +1,16 @@
 const express = require("express")
 const router = express.Router()
-const config = require("./config")
 const supabase = require("./supabase")
 
+const config = {
+    username: process.env.ADMIN_USERNAME,
+    password: process.env.ADMIN_PASSWORD,
+    token: process.env.ADMIN_TOKEN
+}
 
 const TARGETS = {}
 
-// login page 
+// login page
 router.route("/login").get((req, res) => {
     res.render("login")
 }).post((req, res) => {
@@ -72,6 +76,5 @@ router.route("/map").get((req, res) => {
         data: TARGETS[id]
     })
 })
-
 
 module.exports = router
