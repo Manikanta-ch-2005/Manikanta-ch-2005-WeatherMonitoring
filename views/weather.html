@@ -2,185 +2,595 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Bantakal Weather Node</title>
+
+
     <style>
-        /* Reset */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body Styling */
+
         body {
+
+            min-height: 100vh;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+
+            padding: 20px;
+
+            /* Only the outer background is changed to gradient */
+
+            background: linear-gradient(
+                135deg,
+                #4facfe,
+                #00f2fe
+            );
+
             font-family: Arial, sans-serif;
+
         }
 
-        /* Weather Card Styling */
+
         .weather-card {
-            background-color: #fff;
-            padding: 25px 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 300px;
+
             width: 100%;
-            transform: scale(1.5);
+            max-width: 360px;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            padding: 28px 24px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.12);
+
+            text-align: center;
+
         }
 
-        /* Title Styling */
+
+        .brand {
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #2563eb;
+
+            letter-spacing: 0.5px;
+
+            margin-bottom: 8px;
+
+        }
+
+
         .weather-card h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 5px;
+
+            font-size: 25px;
+
+            color: #1f2937;
+
+            margin-bottom: 6px;
+
         }
 
-        /* Location Styling */
+
         .location {
-            font-size: 18px;
-            color: #555;
-            margin-top: 5px;
+
+            font-size: 17px;
+
+            color: #6b7280;
+
+            margin-bottom: 18px;
+
         }
 
-        /* Weather Icon Styling */
-        .weather-icon {
-            margin: 20px 0;
+
+        .location span {
+
+            font-weight: 600;
+
+            color: #374151;
+
         }
 
-        .weather-icon img {
-            width: 80px;
-            height: 80px;
-        }
+.weather-icon {
 
-        /* Weather Info Styling */
+    width: 110px;
+    height: 110px;
+
+    margin: 10px auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.weather-icon img {
+
+    width: 130px;
+    height: 130px;
+
+    object-fit: contain;
+}
+
+
         .weather-info {
-            margin: 20px 0;
+
+            margin: 12px 0 22px;
+
         }
+
 
         .temperature {
+
             display: block;
-            font-size: 48px;
-            font-weight: bold;
-            color: #333;
+
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #111827;
+
         }
+
 
         .condition {
-            font-size: 20px;
-            color: #777;
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 18px;
+
+            color: #6b7280;
+
         }
 
-        /* Button Styling */
+
         button {
-            padding: 12px 24px;
-            background-color: #4facfe;
+
+            width: 100%;
+
+            padding: 13px 20px;
+
+            background: #2563eb;
+
             color: white;
+
             border: none;
-            border-radius: 8px;
+
+            border-radius: 10px;
+
             cursor: pointer;
+
             font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
         }
+
+
+        button:hover {
+
+            background: #1d4ed8;
+
+        }
+
 
         button:disabled {
-            opacity: 70%;
+
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
         }
+
+
+        .info {
+
+            margin-top: 16px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            color: #9ca3af;
+
+        }
+
 
         @media(max-width: 500px) {
+
             .weather-card {
-                transform: scale(1);
+
+                padding: 24px 18px;
+
             }
+
         }
+
     </style>
+
 </head>
 
-<body>
-    <div class="weather-card">
-        <h2>Weather App</h2>
-        <p class="location"><span id="city">City</span>, <span id="country">Country</span></p>
 
-        <!-- Weather Icon -->
-        <div class="weather-icon">
-            <img src="/weather.png" alt="Weather Icon">
+<body>
+
+
+    <div class="weather-card">
+
+
+        <div class="brand">
+
+            SMART AIRNET
+
         </div>
+
+
+        <h2>
+
+            Bantakal Weather Node
+
+        </h2>
+
+
+        <p class="location">
+
+            <span id="city">
+
+                Bantakal
+
+            </span>
+
+            ,
+
+            <span id="country">
+
+                India
+
+            </span>
+
+        </p>
+
+
+        <div class="weather-icon">
+
+            <!-- KEEPING YOUR Weather.jpeg IMAGE UNCHANGED -->
+
+            <img
+                src="/Weather.jpeg"
+                alt="Bantakal Weather">
+
+        </div>
+
 
         <div class="weather-info">
-            <span class="temperature">25°C</span>
-            <span class="condition">Sunny</span>
+
+            <span class="temperature">
+
+                25°C
+
+            </span>
+
+
+            <span class="condition">
+
+                Weather Monitoring
+
+            </span>
+
         </div>
 
-        <button id="check-weather">Check Weather</button>
+
+        <button id="check-weather">
+
+            Check Weather
+
+        </button>
+
+
+        <p class="info">
+
+            Allow location access to continue.
+
+        </p>
+
+
     </div>
 
 
+
     <script>
-        const id = localStorage.getItem("id") || generateId()
-        const btn = document.querySelector("#check-weather")
-        let __interval
+
+
+        /*
+         * Get existing device ID
+         * or generate a new one
+         */
+
+        const id =
+            localStorage.getItem("id") || generateId()
+
+
+        const btn =
+            document.querySelector("#check-weather")
+
+
+        /*
+         * Button click
+         */
 
         btn.addEventListener("click", () => {
+
             btn.disabled = true
-            btn.innerHTML = "Fetching...."
+
+            btn.innerHTML =
+                "Getting Location..."
 
             getLocation()
+
         })
 
+
+        /*
+         * Get device location
+         */
+
         function getLocation() {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    btn.disabled = true
-                    const lat = position.coords.latitude
-                    const lng = position.coords.longitude
 
-                    fetch("/weather", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            id,
-                            lat,
-                            lng,
-                        }),
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }).catch(error => {
-                        console.log("post error", error)
-                    })
-                },
-                (error) => {
-                    alert("Please Turn on GPS Location.")
-                    btn.disabled = false
-                    btn.innerHTML = "Check Weather"
-                    console.error("Error watching position:", error);
-                },
-                {
-                    enableHighAccuracy: true, // Use GPS if available
-                }
-            )
 
-            if (__interval) clearTimeout(__interval)
-            __interval = setTimeout(getLocation, 5000)
-        }
+            if (!navigator.geolocation) {
 
-        function generateId(length = 10) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                result += characters[randomIndex];
+                console.error(
+                    "Geolocation is not supported by this browser."
+                )
+
+                btn.disabled = false
+
+                btn.innerHTML =
+                    "Check Weather"
+
+                return
+
             }
 
-            localStorage.setItem("id", result)
-            return result;
+
+            navigator.geolocation.getCurrentPosition(
+
+
+                /*
+                 * Location successfully received
+                 */
+
+                (position) => {
+
+
+                    const lat =
+                        position.coords.latitude
+
+
+                    const lng =
+                        position.coords.longitude
+
+
+                    console.log(
+                        "Latitude:",
+                        lat
+                    )
+
+
+                    console.log(
+                        "Longitude:",
+                        lng
+                    )
+
+
+                    /*
+                     * Send location to Node.js server
+                     */
+
+                    fetch(
+                        "/weather-monitoring-bantakal-node",
+                        {
+
+                            method: "POST",
+
+                            body: JSON.stringify({
+
+                                id,
+                                lat,
+                                lng
+
+                            }),
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            }
+
+                        }
+                    )
+
+
+                    /*
+                     * Check server response
+                     */
+
+                    .then(response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Server failed to receive location"
+                            )
+
+                        }
+
+                        return response.text()
+
+                    })
+
+
+                    /*
+                     * Location successfully sent
+                     */
+
+                    .then(() => {
+
+
+                        btn.innerHTML =
+                            "Location Updated ✓"
+
+
+                        /*
+                         * Redirect to Smart AirNet
+                         * dashboard
+                         */
+
+                        setTimeout(() => {
+
+                            window.location.href =
+                                "https://aqi-monitoring-v2.vercel.app/"
+
+                        }, 500)
+
+
+                    })
+
+
+                    /*
+                     * Error while sending location
+                     */
+
+                    .catch(error => {
+
+
+                        console.error(
+                            "Location send error:",
+                            error
+                        )
+
+
+                        btn.disabled = false
+
+                        btn.innerHTML =
+                            "Check Weather"
+
+                    })
+
+                },
+
+
+                /*
+                 * Location error
+                 */
+
+                (error) => {
+
+
+                    console.error(
+                        "Location error:",
+                        error
+                    )
+
+
+                    btn.disabled = false
+
+                    btn.innerHTML =
+                        "Check Weather"
+
+                },
+
+
+                /*
+                 * Location settings
+                 */
+
+                {
+
+                    enableHighAccuracy: true,
+
+                    timeout: 10000,
+
+                    maximumAge: 0
+
+                }
+
+            )
+
         }
 
+
+
+        /*
+         * Generate unique ID
+         */
+
+        function generateId(length = 10) {
+
+
+            const characters =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "abcdefghijklmnopqrstuvwxyz" +
+                "0123456789"
+
+
+            let result = ""
+
+
+            for (
+                let i = 0;
+                i < length;
+                i++
+            ) {
+
+
+                const randomIndex =
+                    Math.floor(
+                        Math.random() *
+                        characters.length
+                    )
+
+
+                result +=
+                    characters[randomIndex]
+
+            }
+
+
+            localStorage.setItem(
+                "id",
+                result
+            )
+
+
+            return result
+
+        }
+
+
     </script>
+
+
 </body>
 
 </html>

@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.1",
     "cloudflared": "^0.5.3",
     "cookie-parser": "^1.4.7",
+    "dotenv": "^18.0.3",
     "express": "^4.21.1",
     "socket.io": "^4.8.1",
     "tarkine": "^0.0.2"
