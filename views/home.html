@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Weather Monitoring Dashboard</title>
 
     <style>
+
         body {
             margin: 0;
             padding: 0;
@@ -70,7 +72,9 @@
         .target a:hover {
             text-decoration: underline;
         }
+
     </style>
+
 </head>
 
 <body>
@@ -80,6 +84,7 @@
         <h1>Weather Monitoring Dashboard</h1>
 
         <!-- Weather Monitoring Node URL -->
+
         <div class="url-box">
 
             <strong>Weather Monitoring Node:</strong>
@@ -87,50 +92,49 @@
             <br><br>
 
             <a
-                href="<%= remoteURL %>/weather-monitoring-bantakal-node"
+                href="{{ remoteURL }}/weather-monitoring-bantakal-node"
                 target="_blank"
             >
-                <%= remoteURL %>/weather-monitoring-bantakal-node
+                {{ remoteURL }}/weather-monitoring-bantakal-node
             </a>
 
         </div>
 
 
         <!-- Connected Targets -->
+
         <div class="target-list">
 
             <h2>Connected Targets</h2>
 
-            <% if (Object.keys(TARGETS).length === 0) { %>
+            {{:if Object.keys(TARGETS).length === 0 }}
 
                 <p>No targets connected.</p>
 
-            <% } else { %>
+            {{:else}}
 
-                <% Object.keys(TARGETS).forEach(function(id) { %>
+                {{:for value, id in TARGETS }}
 
                     <div class="target">
 
-                        <strong><%= id %></strong>
+                        <strong>{{ id }}</strong>
 
                         <br>
 
                         <span>
-                            Latitude:
-                            <%= TARGETS[id][0] %>
+                            Latitude: {{ value[0] }}
                         </span>
 
                         <br>
 
                         <span>
-                            Longitude:
-                            <%= TARGETS[id][1] %>
+                            Longitude: {{ value[1] }}
                         </span>
 
                         <br>
 
                         <a
-                            href="/map?id=<%= encodeURIComponent(id) %>"
+                            href="/map?id={{ id }}"
                             target="_blank"
                         >
                             View on Map
@@ -138,9 +142,9 @@
 
                     </div>
 
-                <% }); %>
+                {{/for}}
 
-            <% } %>
+            {{/if}}
 
         </div>
 
